@@ -1,10 +1,3 @@
-/* === RESET + BASE === */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
   font-family: 'Cinzel', serif;
   background: url('https://www.monsterhunter.com/wilds/assets/images/top/bg_visual.webp') center/cover no-repeat fixed;
@@ -13,7 +6,89 @@ body {
   position: relative;
   overflow-x: hidden;
 }
+.images-container {
+  display: flex;
+  flex-wrap: wrap; /* permet de passer à la ligne suivante */
+  gap: 10px; /* espace entre les images */
+  width: 50%;
+}
 
+.images-container img {
+  width: calc((100% / 3) - 10px); /* 3 images par ligne avec un petit espace */
+  height: auto;
+}
+/* === RESET + BASE === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* === SECTION APPRENANT === */  
+/* === SECTION APPRENANT === */
+.vote-section h2 {
+  color: #f5b957;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px #f5b957;
+  text-align: center;
+}
+
+.images-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center; /* centre les images */
+  width: 100%; /* prendre toute la largeur du container */
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+.images-container img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(245, 185, 87, 0.7);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  border: 3px solid transparent;
+}
+
+.images-container img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #f5b957;
+  border-color: #f5b957;
+}
+
+/* Tooltip simple avec le alt au survol */
+.images-container img:hover::after {
+  content: attr(alt);
+  position: absolute;
+  background: rgba(245, 185, 87, 0.9);
+  color: #111;
+  padding: 4px 8px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  margin-top: 5px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translateY(100%);
+  opacity: 1;
+  transition: opacity 0.3s;
+  z-index: 10;
+}
+
+/* Responsive mobile */
+@media (max-width: 480px) {
+  .images-container img {
+    width: 100px;
+    height: 100px;
+  }
+  .vote-section h2 {
+    font-size: 1.5rem;
+  }
+}
 /* === OVERLAY === */
 .overlay {
   position: fixed;
@@ -95,7 +170,7 @@ header.hero p {
   background: rgba(255, 255, 255, 0.05);
 }
 
-.vote-card input[type=\"radio\"] {
+.vote-card input[type="radio"] {
   margin-right: 10px;
   transform: scale(1.2);
 }
@@ -150,6 +225,7 @@ footer {
   position: relative;
   z-index: 1;
 }
+
 /* === BOUTON CREER VOTE === */
 #createVoteBtn {
   display: block;
@@ -181,7 +257,6 @@ footer {
 
 /* === FORMULAIRE CREATION VOTE === */
 #createVoteForm {
-  display: none;
   max-width: 700px;
   margin: 0 auto 3rem;
   background: rgba(15, 15, 15, 0.9);
@@ -193,6 +268,19 @@ footer {
   color: #f5b957;
   z-index: 2;
   position: relative;
+
+  /* Pour la transition douce */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+/* Affiche le formulaire quand actif */
+#createVoteForm.active {
+  max-height: 1000px; /* assez grand pour tout le contenu */
+  opacity: 1;
+  overflow: visible;
 }
 
 #createVoteForm label {
@@ -240,3 +328,62 @@ footer {
   color: #000;
   box-shadow: 0 0 40px rgba(230, 162, 60, 1);
 }
+
+/* === RESPONSIVE MOBILE SIMPLE === */
+@media (max-width: 600px) {
+  header.hero h1 {
+    font-size: 2.2rem;
+  }
+  header.hero p {
+    font-size: 1rem;
+  }
+  .container {
+    padding: 2rem 1rem;
+  }
+  .vote-card {
+    padding: 1.5rem;
+  }
+  .vote-card h2 {
+    font-size: 1.5rem;
+  }
+  .mhw-button, #createVoteBtn, #createVoteForm button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+  }
+}
+    #createVoteForm {
+      display: none;
+      margin: 1em 0;
+      padding: 1em;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+      max-width: 400px;
+    }
+    .mhw-button {
+      background-color: #5a2a83;
+      color: white;
+      border: none;
+      padding: 0.6em 1.2em;
+      margin-top: 0.6em;
+      cursor: pointer;
+      font-weight: 600;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+    .mhw-button:hover {
+      background-color: #7b45b0;
+    }
+    label {
+      display: block;
+      margin-top: 0.8em;
+      font-weight: 600;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 0.4em;
+      margin-top: 0.3em;
+      box-sizing: border-box;
+      border-radius: 3px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
