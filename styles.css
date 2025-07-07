@@ -1,58 +1,242 @@
+/* === RESET + BASE === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to bottom, #1a1a1a, #2e2e2e);
-    color: #fff;
-    overflow-x: hidden;
+  font-family: 'Cinzel', serif;
+  background: url('https://www.monsterhunter.com/wilds/assets/images/top/bg_visual.webp') center/cover no-repeat fixed;
+  color: #eee;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
 }
 
-header {
-    background: url('https://i.imgur.com/3ZQ3Z0N.jpg') no-repeat center center/cover;
-    height: 60vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    animation: fadeIn 2s ease-in-out;
+/* === OVERLAY === */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
 }
 
-header h1 {
-    font-size: 3em;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 20px;
-    border-radius: 10px;
+/* === HEADER / HERO === */
+header.hero {
+  position: relative;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 1;
 }
 
-main {
-    padding: 40px;
-    animation: slideUp 1.5s ease-out;
+header.hero h1 {
+  font-size: 3.5rem;
+  color: #ffd266;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.85);
+  margin-bottom: 1rem;
+  letter-spacing: 1.5px;
 }
 
-.card {
-    background: #222;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
+header.hero p {
+  font-size: 1.3rem;
+  color: #f5deb3;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
-.card:hover {
-    transform: scale(1.03);
+/* === MAIN CONTENT === */
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 3rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  position: relative;
+  z-index: 1;
 }
 
+/* === VOTE CARD === */
+.vote-card {
+  background: rgba(15, 15, 15, 0.85);
+  border-left: 5px solid #f5b957;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease;
+}
+
+.vote-card:hover {
+  transform: scale(1.01);
+}
+
+.vote-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #f5b957;
+}
+
+/* === RADIO OPTIONS === */
+.vote-card label {
+  display: block;
+  margin: 0.8rem 0;
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.vote-card label:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.vote-card input[type=\"radio\"] {
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+/* === VIDEO EMBED === */
+.video {
+  margin-bottom: 1rem;
+}
+
+.video iframe {
+  width: 100%;
+  height: 300px;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+/* === BUTTON === */
+.mhw-button {
+  display: inline-block;
+  background: #e6a23c;
+  color: #111;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 1.2rem;
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+  transition: background 0.3s, color 0.3s, transform 0.2s;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.mhw-button:hover {
+  background: #f5b957;
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.4);
+}
+
+/* === FOOTER === */
 footer {
-    text-align: center;
-    padding: 20px;
-    background: #111;
-    font-size: 0.9em;
+  text-align: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #bbb;
+  font-size: 0.9rem;
+  border-top: 2px solid #f5b957;
+  position: relative;
+  z-index: 1;
+}
+/* === BOUTON CREER VOTE === */
+#createVoteBtn {
+  display: block;
+  margin: 20px auto;
+  background: #f5b957;
+  color: #111;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(245, 185, 87, 0.7);
+  transition: background 0.3s, color 0.3s;
+  max-width: 200px;
+  text-transform: uppercase;
+  user-select: none;
+  z-index: 2;
+  position: relative;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+#createVoteBtn:hover {
+  background: #e6a23c;
+  color: #000;
+  box-shadow: 0 0 35px rgba(230, 162, 60, 0.9);
 }
 
-@keyframes slideUp {
-    from { transform: translateY(50px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+/* === FORMULAIRE CREATION VOTE === */
+#createVoteForm {
+  display: none;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+  background: rgba(15, 15, 15, 0.9);
+  border-left: 5px solid #f5b957;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(245, 185, 87, 0.6);
+  font-family: 'Cinzel', serif;
+  color: #f5b957;
+  z-index: 2;
+  position: relative;
+}
+
+#createVoteForm label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+#createVoteForm input[type="text"],
+#createVoteForm textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 1.1rem;
+  font-family: 'Cinzel', serif;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  margin-bottom: 1.2rem;
+  color: #111;
+}
+
+#createVoteForm textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+#createVoteForm button {
+  background: #f5b957;
+  color: #111;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(245, 185, 87, 0.8);
+  transition: background 0.3s, color 0.3s;
+  text-transform: uppercase;
+}
+
+#createVoteForm button:hover {
+  background: #e6a23c;
+  color: #000;
+  box-shadow: 0 0 40px rgba(230, 162, 60, 1);
 }

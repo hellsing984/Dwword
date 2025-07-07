@@ -1,0 +1,10 @@
+{
+  "monstre": {
+    "title": "🦖 Monstre préféré",
+    "options": ["Rathalos", "Tigrex", "Nergigante"]
+  },
+  "arme": {
+    "title": "⚔️ Arme favorite",
+    "options": ["Grande épée", "Katana", "Insectoglaive"]
+  }
+}
