@@ -122,7 +122,15 @@ header.hero p {
   color: #f5deb3;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
-
+/* Simple style pour le formulaire dynamique */
+    #createVoteForm label {
+      display: block;
+      margin: 0.3em 0;
+    }
+    #createVoteForm button {
+      margin-top: 1em;
+      padding: 0.5em 1em;
+    }
 /* === MAIN CONTENT === */
 .container {
   max-width: 960px;
