@@ -142,6 +142,30 @@ header.hero p {
   position: relative;
   z-index: 1;
 }
+.circle-options {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+/* cercle */
+.circle-option {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.circle-option.selected {
+  background-color: #b8e0c2; /* vert clair comme dans l’image */
+  border-color: #88c398;
+}
 
 /* === VOTE CARD === */
 .vote-card {
