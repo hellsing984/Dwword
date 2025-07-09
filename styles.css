@@ -180,6 +180,27 @@ header.hero p {
 .vote-card:hover {
   transform: scale(1.01);
 }
+.vote-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.vote-avatar {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+input[type="radio"]:checked + label > .vote-avatar {
+  border-color: gold;
+  transform: scale(1.05);
+}
 
 .vote-card h2 {
   font-size: 1.8rem;
