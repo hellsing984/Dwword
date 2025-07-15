@@ -21,7 +21,7 @@ $stmt->execute([$email]);
 $stmt = $pdo->prepare("SELECT COUNT(*) FROM votes WHERE email = ? AND vote_type = ?");
 $stmt->execute([$email, $voteType]);
 if ($stmt->fetchColumn() > 0) {
-    echo "⚠️ Vous avez déjà voté pour la catégorie : " . htmlspecialchars($voteType);
+    echo "⚠️ Votre vote a étes pris en charge  : " . htmlspecialchars($voteType);
     exit;
 }
 
@@ -35,6 +35,6 @@ foreach ($choices as $value) {
     $stmt->execute([$email, $voteType, $categoryLabel, $selectedImage]);
 }
 
-header("Location: index.html");
+header("Location: index.php");
 exit;
 ?>
