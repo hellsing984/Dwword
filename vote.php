@@ -24,6 +24,14 @@ if ($stmt->fetchColumn() > 0) {
     echo "⚠️ Votre vote a étes pris en charge  : " . htmlspecialchars($voteType);
     exit;
 }
+// ❌ Bloque si l'email n'est pas dans la liste des emails autorisés
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM authorized_emails WHERE email = ?");
+$stmt->execute([$email]);
+if ($stmt->fetchColumn() == 0) {
+    echo "❌ Cette adresse email n'est pas autorisée à voter.";
+    exit;
+}
+
 
 $stmt = $pdo->prepare("
     INSERT INTO votes (email, vote_type, category_label, selected_image, voted_at)
