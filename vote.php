@@ -1,32 +1,40 @@
 <?php
-session_start();
-$email = $_POST['email'] ?? null;
+require 'db.php';
 
-if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("E-mail invalide !");
+$email = trim($_POST['email'] ?? '');
+$voteType = $_POST['vote_type'] ?? '';
+$choices = array_filter($_POST, function ($key) {
+    return strpos($key, 'choice_') === 0;
+}, ARRAY_FILTER_USE_KEY);
+
+if (empty($email) || empty($voteType) || empty($choices)) {
+    http_response_code(400);
+    echo "❌ Tous les champs sont requis.";
+    exit;
 }
 
-// Connexion à ta base de données
-$pdo = new PDO('mysql:host=localhost;dbname=kyudoalk2', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+// Insère l'email validé dans la table voters (uniquement s'il n'existe pas déjà)
+$stmt = $pdo->prepare("INSERT IGNORE INTO voters (email) VALUES (?)");
+$stmt->execute([$email]);
 
-// Vérifie si cet email a déjà voté pour cette catégorie
-$type = $_POST['vote_type'] ?? '';
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM quizz_alk WHERE email = ? AND type_vote = ?");
-$stmt->execute([$email, $type]);
-$dejaVote = $stmt->fetchColumn() > 0;
-
-if ($dejaVote) {
-    die("Tu as déjà voté pour cette catégorie.");
+// Vérifie si l'utilisateur a déjà voté pour ce type
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM votes WHERE email = ? AND vote_type = ?");
+$stmt->execute([$email, $voteType]);
+if ($stmt->fetchColumn() > 0) {
+    echo "⚠️ Vous avez déjà voté pour la catégorie : " . htmlspecialchars($voteType);
+    exit;
 }
 
-// Ensuite, insérer le vote (à adapter selon ton système)
-foreach ($_POST as $key => $value) {
-    if (strpos($key, 'choice_') === 0) {
-        $stmt = $pdo->prepare("INSERT INTO quizz_alk (email, type_vote, choix) VALUES (?, ?, ?)");
-        $stmt->execute([$email, $type, $value]);
-    }
+$stmt = $pdo->prepare("
+    INSERT INTO votes (email, vote_type, category_label, selected_image, voted_at)
+    VALUES (?, ?, ?, ?, NOW())
+");
+
+foreach ($choices as $value) {
+    list($categoryLabel, $selectedImage) = explode('|', $value);
+    $stmt->execute([$email, $voteType, $categoryLabel, $selectedImage]);
 }
 
-echo "Merci pour ton vote !";
-
+header("Location: index.html");
+exit;
+?>
