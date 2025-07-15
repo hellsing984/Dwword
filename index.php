@@ -12,9 +12,14 @@
 <body>
   <div class="overlay"></div>
   <header class="hero">
-    <h1>🌋 Site du jugement</h1>
-    <p>Exprime ton choix de chasseur</p>
-  </header>
+  <h1>🌋 Site du jugement</h1>
+  <p>Exprime ton choix de chasseur</p>
+  <form id="emailForm">
+    <label for="email">Ton e-mail :</label>
+    <input type="email" name="email" id="email" required>
+    <button type="submit">Valider</button>
+  </form>
+</header>
   <!-- FORMULAIRE DE VOTE DYNAMIQUE -->
   <form id="createVoteForm" class="create-vote-form" style="display:none;" method="post" action="vote.php">
     <label for="category">Choisissez une catégorie :</label>
@@ -33,7 +38,7 @@
   </form>
 
  <!-- Juste avant la boucle PHP des votes -->
-<main class="container">
+<main class="container" id="voteArea" style="display:none;">
 
   <section class="vote-section">
   <h2>1. Catégorie Apprenant🧑🎓</h2>
@@ -194,6 +199,43 @@ foreach ($votes as $type => $data):
         submitBtn.disabled = true;
       }
     });
+  const emailForm = document.getElementById('emailForm');
+  const voteArea = document.getElementById('voteArea');
+
+  emailForm.addEventListener('submit', function(e) {
+    e.preventDefault(); // ne recharge pas la page
+
+    const emailInput = document.getElementById('email');
+    const email = emailInput.value.trim();
+
+    if (!email || !validateEmail(email)) {
+      alert("Veuillez entrer un e-mail valide.");
+      return;
+    }
+
+    // Stocke l’e-mail dans le sessionStorage pour réutilisation
+    sessionStorage.setItem('user_email', email);
+
+    // Affiche la zone de vote
+    voteArea.style.display = 'block';
+
+    // Optionnel : désactive le formulaire d’e-mail
+    emailInput.disabled = true;
+    emailForm.querySelector('button').disabled = true;
+
+    // Injecte l’email dans tous les formulaires de vote
+    document.querySelectorAll('form[action="vote.php"]').forEach(form => {
+      let hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = 'email';
+      hidden.value = email;
+      form.appendChild(hidden);
+    });
+  });
+
+  function validateEmail(email) {
+    return /\S+@\S+\.\S+/.test(email);
+  }
   </script>
 </body>
 </html>

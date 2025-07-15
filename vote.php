@@ -1,40 +1,32 @@
 <?php
-// Récupérer les données envoyées en POST
-$voteType = $_POST['vote_type'] ?? null;
-$choice = $_POST['choice'] ?? null;
+session_start();
+$email = $_POST['email'] ?? null;
 
-if (!$voteType || !$choice) {
-    http_response_code(400);
-    echo "Données manquantes";
-    exit;
+if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    die("E-mail invalide !");
 }
 
-// Fichier de stockage des votes
-$file = 'votes.json';
+// Connexion à ta base de données
+$pdo = new PDO('mysql:host=localhost;dbname=kyudoalk2', 'root', '');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Lire les votes existants
-if (file_exists($file)) {
-    $votesData = json_decode(file_get_contents($file), true);
-    if (!is_array($votesData)) {
-        $votesData = [];
+// Vérifie si cet email a déjà voté pour cette catégorie
+$type = $_POST['vote_type'] ?? '';
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM quizz_alk WHERE email = ? AND type_vote = ?");
+$stmt->execute([$email, $type]);
+$dejaVote = $stmt->fetchColumn() > 0;
+
+if ($dejaVote) {
+    die("Tu as déjà voté pour cette catégorie.");
+}
+
+// Ensuite, insérer le vote (à adapter selon ton système)
+foreach ($_POST as $key => $value) {
+    if (strpos($key, 'choice_') === 0) {
+        $stmt = $pdo->prepare("INSERT INTO quizz_alk (email, type_vote, choix) VALUES (?, ?, ?)");
+        $stmt->execute([$email, $type, $value]);
     }
-} else {
-    $votesData = [];
 }
 
-// Ajouter le nouveau vote (avec timestamp)
-$votesData[] = [
-    'vote_type' => $voteType,
-    'choice' => $choice,
-    'timestamp' => date('Y-m-d H:i:s')
-];
-
-// Enregistrer dans le fichier
-file_put_contents($file, json_encode($votesData, JSON_PRETTY_PRINT));
-
-// Rediriger ou afficher un message de succès
-header('Location: index.html'); // adapter le nom de ta page principale
-exit;
-?>
-
+echo "Merci pour ton vote !";
 
